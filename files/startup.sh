@@ -157,10 +157,12 @@ sed "s/HIVE_METASTORE_LOG_LEVEL/$HIVE_METASTORE_LOG_LEVEL/" -i /etc/hive/conf/hi
 #remove leading , when external METASTORE_LISTENERS are not defined
 export METASTORE_LISTENERS=$(echo $METASTORE_LISTENERS|sed 's/^,//')
 sed "s/METASTORE_LISTENERS/${METASTORE_LISTENERS}/" -i /etc/hive/conf/hive-site.xml
+sed "s/^,//" -i /etc/hive/conf/hive-site.xml
 
 [[ ! -z $ENABLE_GLUESYNC ]] && export METASTORE_PRELISTENERS="${METASTORE_PRELISTENERS},com.expediagroup.apiary.extensions.gluesync.listener.ApiaryGluePreEventListener"
 export METASTORE_PRELISTENERS=$(echo $METASTORE_PRELISTENERS|sed 's/^,//')
 sed "s/METASTORE_PRELISTENERS/${METASTORE_PRELISTENERS}/" -i /etc/hive/conf/hive-site.xml
+sed "s/^,//" -i /etc/hive/conf/hive-site.xml
 
 #required to debug ranger plugin, todo: send apache common logs to cloudwatch
 #export HADOOP_OPTS="$HADOOP_OPTS -Dorg.apache.commons.logging.LogFactory=org.apache.commons.logging.impl.LogFactoryImpl -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"
